@@ -27,10 +27,17 @@ jobs:
       - name: Decode Debug Keystore
         run: |
           if [ -f "debug.keystore.base64" ]; then
-            base64 -d debug.keystore.base64 > debug.keystore
-            echo "Successfully decoded debug.keystore"
+            base64 --decode debug.keystore.base64 > debug.keystore || base64 -d debug.keystore.base64 > debug.keystore
+            if [ -s "debug.keystore" ]; then
+              echo "Successfully decoded debug.keystore and verified content length."
+              ls -la debug.keystore
+            else
+              echo "ERROR: debug.keystore file is empty!"
+              exit 1
+            fi
           else
-            echo "WARNING: debug.keystore.base64 not found in root!"
+            echo "ERROR: debug.keystore.base64 not found in root!"
+            exit 1
           fi
 
       - name: Grant Execute Permission for Gradlew
@@ -40,7 +47,7 @@ jobs:
         run: ./gradlew assembleDebug
 
       - name: Upload Debug APK Artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: debug-apk
           path: app/build/outputs/apk/debug/*.apk
