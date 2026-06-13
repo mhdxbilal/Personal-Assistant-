@@ -1,0 +1,4 @@
+# Treat all jar files and images as binary to prevent auto CRLF/LF line-ending conversion which corrupts binaries.
+*.jar binary
+*.png binary
+*.webp binary
