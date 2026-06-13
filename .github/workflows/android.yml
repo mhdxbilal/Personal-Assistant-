@@ -24,6 +24,15 @@ jobs:
           mkdir -p gradle/wrapper
           curl -L -o gradle/wrapper/gradle-wrapper.jar https://raw.githubusercontent.com/gradle/gradle/v9.3.1/gradle/wrapper/gradle-wrapper.jar
 
+      - name: Decode Debug Keystore
+        run: |
+          if [ -f "debug.keystore.base64" ]; then
+            base64 -d debug.keystore.base64 > debug.keystore
+            echo "Successfully decoded debug.keystore"
+          else
+            echo "WARNING: debug.keystore.base64 not found in root!"
+          fi
+
       - name: Grant Execute Permission for Gradlew
         run: chmod +x gradlew
 
