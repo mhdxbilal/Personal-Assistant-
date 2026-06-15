@@ -1,6 +1,6 @@
 {
-  "name": "Voice Assistant",
-  "description": "An expert voice assistant and automated build environment.",
+  "name": "Matrix",
+  "description": "Premium 100% Offline Personal Assistant and Core OS Automation Engine.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
