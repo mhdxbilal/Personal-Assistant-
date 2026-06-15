@@ -24,20 +24,17 @@ jobs:
           mkdir -p gradle/wrapper
           curl -L -o gradle/wrapper/gradle-wrapper.jar https://raw.githubusercontent.com/gradle/gradle/v9.3.1/gradle/wrapper/gradle-wrapper.jar
 
-      - name: Decode Debug Keystore
+      - name: Decode Debug Keystore (Optional Fallback)
         run: |
           if [ -f "debug.keystore.base64" ]; then
             base64 --decode debug.keystore.base64 > debug.keystore || base64 -d debug.keystore.base64 > debug.keystore
             if [ -s "debug.keystore" ]; then
-              echo "Successfully decoded debug.keystore and verified content length."
-              ls -la debug.keystore
+              echo "Successfully decoded local debug.keystore."
             else
-              echo "ERROR: debug.keystore file is empty!"
-              exit 1
+              echo "WARNING: decoded debug.keystore file is empty!"
             fi
           else
-            echo "ERROR: debug.keystore.base64 not found in root!"
-            exit 1
+            echo "No custom debug.keystore.base64 found in root. Falling back to default automatic Android signing config."
           fi
 
       - name: Grant Execute Permission for Gradlew
